@@ -38,7 +38,10 @@
    cd khadamni
 
 Install PHP dependencies:
+```bash
    composer install
+
 Install frontend dependencies:
+```bash
    npm install
 
