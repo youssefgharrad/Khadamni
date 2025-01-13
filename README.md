@@ -36,3 +36,9 @@
    ```bash
    git clone https://github.com/your-repo/khadamni.git
    cd khadamni
+
+Install PHP dependencies:
+   composer install
+Install frontend dependencies:
+   npm install
+
