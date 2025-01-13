@@ -1,0 +1,23 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+login_check:
+  path: /login_check
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+app_home :
+    path: /home
+    controller: App\Controller\HomeController::index
+
+
+app_utilisateur_login:
+    path: /login
+    controller: App\Controller\UtilisateurController::login    
+
+app_utilisateur_delete:
+    path: /{id}
+    controller: App\Controller\UtilisateurController::delete
+    methods: [POST]
+
+    #methods: [GET]

@@ -1,0 +1,197 @@
+{% block title %}User Card{% endblock %}
+ {% block body %}
+ <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>note</title>
+    <style>
+        .star {
+            font-size: 1.5rem;
+        }
+        
+        .hover {
+            color: rgb(255, 196, 0);
+        }
+    </style>
+</head>
+ <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+ <link href="{{ asset('assets/css/card1.css') }}" rel="stylesheet" id="bootstrap-css">
+<script src="{{ asset('assets/js/card.js') }}"></script>
+ <div class="container">
+      <div class="row">
+      <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+      
+       <br>
+<p class="text-info">{{ "now"|date("M d,Y,h:i a") }}</p>
+      </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+   
+   
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ utilisateur.nom }} Card</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="{{ asset('uploads/your_entity_photos/' ~ utilisateur.photo) }}" class="img-circle img-responsive"> </div>
+                
+                <!--<div class="col-xs-10 col-sm-10 hidden-md hidden-lg"> <br>
+                  <dl>
+                    <dt>DEPARTMENT:</dt>
+                    <dd>Administrator</dd>
+                    <dt>HIRE DATE</dt>
+                    <dd>11/12/2013</dd>
+                    <dt>DATE OF BIRTH</dt>
+                       <dd>11/12/2013</dd>
+                    <dt>GENDER</dt>
+                    <dd>Male</dd>
+                  </dl>
+                </div>-->
+                <div class=" col-md-9 col-lg-9 "> 
+                  <table class="table table-user-information"  align="center">
+                    <tbody>
+                      <tr>
+                        <td>Profession</td>
+                        <td>{{ utilisateur.profession }}</td>
+                      </tr>
+                      <tr>
+                        <td>Nom</td>
+                        <td>{{ utilisateur.nom }}</td>
+                      </tr>
+                      <tr>
+                        <td>Prenom</td>
+                        <td>{{ utilisateur.prenom }}</td>
+                      </tr> 
+                      <tr>
+                        <td>Email</td>
+                        <td><a href="mailto:lord.gaddour.99@gmail.com">info@support.com</a></td>
+                      </tr>
+                       <tr>
+                        <td>Numero</td>
+                        <td>{{ utilisateur.num }}
+                        </td>
+                           
+                      </tr>
+                       <tr>
+                        <td>Note</td>
+                        <td>{{ utilisateur.rate }}
+                        </td>
+                           
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+                  	  {% if qrCode %}
+             <div  align="center">   <img src="{{ qrCode }}" alt="qr-code" ></div>
+            {% endif %}
+            
+    <i class="star"  style="font-size: 36px;" data-note="1">&#9733;</i>
+    <i class="star" style="font-size: 36px;" data-note="2">&#9733;</i>
+    <i class="star" style="font-size: 36px;" data-note="3">&#9733;</i>
+    <i class="star" style="font-size: 36px;" data-note="4">&#9733;</i>
+    <i class="star" style="font-size: 36px;" data-note="5">&#9733;</i>
+ 
+  {% set id1 =  utilisateur.id  %} 
+ <script>
+   const id1 = {{ utilisateur.id|json_encode|raw }};
+        const stars = document.querySelectorAll('.star');
+        let check = false;
+        stars.forEach(star => {
+            star.addEventListener('mouseover', selectStars);
+            star.addEventListener('mouseleave', unselectStars);
+            star.addEventListener('click', activeSelect);
+        })
+
+        function selectStars(e) {
+            const data = e.target;
+            const etoiles = priviousSiblings(data);
+            if (!check) {
+                etoiles.forEach(etoile => {
+                    etoile.classList.add('hover');
+                })
+            }
+
+        }
+
+        function unselectStars(e) {
+            const data = e.target;
+            const etoiles = priviousSiblings(data);
+            if (!check) {
+                etoiles.forEach(etoile => {
+                    etoile.classList.remove('hover');
+                })
+            }
+            
+        }
+
+        function activeSelect(e) {
+            if (!check) {
+                check = true;
+               // document.querySelector('.note').innerHTML = 'Note ' + e.target.dataset.note;
+                const rating = e.target.dataset.note;
+                sendData(rating);
+            }
+            if (check){
+                 check = false;
+            }
+
+        }
+
+        function priviousSiblings(data) {
+            let values = [data];
+            while (data = data.previousSibling) {
+                if (data.nodeName === 'I') {
+                    values.push(data);
+                }
+            }
+            return values;
+        }
+        function sendData(rating) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST',"{{ path('app_note', { 'id': id1 }) }}", true); // modify the URL to your Symfony controller
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function() {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      console.log('Data sent successfully');
+    } else if (this.readyState === XMLHttpRequest.DONE && this.status !== 200) {
+      console.error('Error sending data');
+    }
+  };
+  xhr.send('rating=' + rating); // send the rating data as a POST parameter
+}
+function sendId(id1) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', "{{ path('app_note', { 'id': id1 }) }}" , true); // modify the URL to your Symfony controller
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.send('id=' + id1); // no data needs to be sent
+
+  xhr.onreadystatechange = function() {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      console.log('ID sent successfully');
+    } else if (this.readyState === XMLHttpRequest.DONE && this.status !== 200) {
+      console.error('Error sending ID');
+    }
+  };
+}
+</script>
+                  <a href="{{ path('app_rate', {'id': utilisateur.id}) }}" class="btn btn-primary">donner note</a>
+                  
+                </div>
+              </div>
+            </div>
+                 <div class="panel-footer">
+                        <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+                        <span class="pull-right">
+                            <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                        </span>
+                    </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+ {% endblock %}

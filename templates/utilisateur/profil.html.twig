@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+  <h1>User Profile</h1>
+  <div class="user-profile">
+    <div class="user-profile-picture">
+      <img src="{{ asset('uploads/your_entity_photos/' ~ utilisateur.photo) }}" alt="Profile Picture" style="width: 200px; height: 200px;">
+      
+    </div>
+    <div class="user-profile-details">
+      <h2>{{ utilisateur.nom }}</h2>
+      <p><strong>prenom:</strong> {{ utilisateur.prenom }}</p>
+      <p><strong>mail:</strong> {{ utilisateur.adresse }}</p>
+      <p><strong>numero:</strong>{{ utilisateur.num }} </p>
+      
+    </div>
+  </div>
+  <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">modifier profil</a>
+  <a href="{{ path('app_home') }}">home</a>
+  {{ include('utilisateur/_delete_form.html.twig') }}
+{% endblock %}

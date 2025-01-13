@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+ 
+ <a href="{{ path('app_utilisateur_profil', {'id': app.user.id}) }}">profil</a>
+{% endblock %}
